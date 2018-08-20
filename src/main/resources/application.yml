@@ -1,0 +1,43 @@
+#server 配置
+server:
+    port: 8080
+#    context-path: /ElasticSearchAPI
+
+#连接池配置
+pool:
+    minPoolSize : 10
+    maxPoolSize : 50
+    initialPoolSize : 10
+
+#针对不同环境配置 下面参数会覆盖上面已有的参数 可以在启动时传入参数覆盖此配置  --spring.profiles.active=pro
+spring.profiles.active: dev
+
+---
+spring.profiles: dev
+
+config:
+    hello: The current application  profile is develop
+registry:
+    id: dev
+jdbc:
+    mysql:
+        url : jdbc:mysql://10.125.9.108:3306/intelligent_gaoyuan?useUnicode=true&characterEncoding=utf8
+        username : gaoyuan
+        password : gaoyuan123
+        driveName : com.mysql.jdbc.Driver
+
+---
+spring.profiles: pro
+
+config:
+    hello: The current application  profile is pro
+registry:
+    id: pro
+jdbc:
+    mysql:
+        url : jdbc:mysql://10.125.9.108:3306/intelligent_gaoyuan?useUnicode=true&characterEncoding=utf8
+        username : gaoyuan
+        password : gaoyuan123
+        driveName : com.mysql.jdbc.Driver
+
+

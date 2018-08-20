@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+   http://www.springframework.org/schema/beans/spring-beans.xsd
+   http://www.springframework.org/schema/context  
+   http://www.springframework.org/schema/context/spring-context.xsd 
+   http://www.springframework.org/schema/tx  
+   http://www.springframework.org/schema/tx/spring-tx.xsd 
+   http://www.springframework.org/schema/aop 
+   http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!-- 配置dataSource -->
+    <bean class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close" id="dataSource" init-method="init">
+        <property name="driverClassName" value="${jdbc.mysql.driveName}" />
+        <property name="url" value="${jdbc.mysql.url}" />
+        <property name="username" value="${jdbc.mysql.username}" />
+        <property name="password" value="${jdbc.mysql.password}" />
+        <property name="initialSize" value="${pool.initialPoolSize}"></property>
+        <property name="minIdle" value="${pool.minPoolSize}"></property>
+        <property name="maxActive" value="${pool.maxPoolSize}"></property>
+    </bean>
+
+    <!-- sqlSessionFactory -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="typeAliasesPackage" value="com.xinhuanet.entity" />	<!-- 给包entity中起别名 -->
+        <property name="configLocation" value="classpath:mybatis_config.xml" />	<!-- 加载核心配置文件 -->
+    </bean>
+
+    <!-- 扫包中所有的接口，自动生成对应的代理对象 找id为sqlSessionFactory -->
+    <!--<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.xinhuanet.mapper" />
+    </bean> -->
+
+    <!-- 配置该文件及以下的变量 -->
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations" value="classpath*:application.properties" />
+        <!-- 是否忽略不可解析的 Placeholder，如配置了多个PropertyPlaceholderConfigurer，则需设置为true -->
+        <property name="ignoreUnresolvablePlaceholders" value="true" />
+    </bean>
+
+    <!--<bean class="tk.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.xinhuanet.mapper" />
+        <property name="properties">
+            <value>
+                mappers=tk.mybatis.mapper.common.Mapper
+                ORDER=BEFORE
+            </value>
+        </property>
+    </bean>-->
+
+    <!-- transaction support -->
+    <!-- PlatformTransactionMnager -->
+    <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+    <!-- enable transaction annotation support -->
+    <tx:annotation-driven transaction-manager="txManager" />
+
+    <aop:aspectj-autoproxy />
+
+</beans>
