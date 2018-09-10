@@ -97,13 +97,18 @@ public class ContentDetailController {
     }
 
     @RequestMapping("/importData")
-    public void importData(){
+    public void importData() {
         contentDetailService.importData();
     }
 
     @RequestMapping("/importOne")
-    public String importOne(String id){
+    public String importOne(String id) {
         return contentDetailService.importOne(id);
+    }
+
+    @RequestMapping("/getByContentid")
+    public List<ContentDetail> getByContentid(String contentid) {
+        return contentDetailService.getByContentid(contentid);
     }
 
 }

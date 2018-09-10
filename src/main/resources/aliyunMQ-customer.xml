@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="msgListener" class="com.xinhuanet.aliyunmq.TagMessageListener2"></bean> <!--Listener 配置 -->
+
+    <!-- 多 CID 订阅同一个 Topic，可以创建多个 ConsumerBean -->
+    <bean id="consumer" class="com.aliyun.openservices.ons.api.bean.ConsumerBean" init-method="start"
+          destroy-method="shutdown">
+        <property name="properties"> <!--消费者配置信息 -->
+            <props>
+                <prop key="ConsumerId">${con.ConsumerId}</prop> <!--请替换 XXX -->
+                <prop key="AccessKey">${con.AccessKey}</prop>
+                <prop key="SecretKey">${con.SecretKey}</prop>
+                <prop key="ONSAddr">${con.ONSAddr}</prop>
+                <!--将消费者线程数固定为50个 <prop key="ConsumeThreadNums">50</prop> -->
+                <prop key="ConsumeThreadNums">1</prop>
+            </props>
+        </property>
+
+        <property name="subscriptionTable">
+            <map>
+                <entry value-ref="msgListener">
+                    <key>
+                        <bean class="com.aliyun.openservices.ons.api.bean.Subscription">
+                            <property name="topic" value="${con.Topic}"/>
+                            <property name="expression" value="${con.TagAll}"/>
+                            <!--expression 即 Tag，可以设置成具体的 Tag，如 taga||tagb||tagc，也可设置成*。 *仅代表订阅所有 Tag，不支持通配 -->
+                        </bean>
+                    </key>
+                </entry>
+            </map>
+        </property>
+    </bean>
+</beans>

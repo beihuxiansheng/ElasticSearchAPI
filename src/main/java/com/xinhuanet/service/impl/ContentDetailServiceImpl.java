@@ -5,6 +5,7 @@ import com.xinhuanet.entity.ContentDetail;
 import com.xinhuanet.mapper.ContentDetailMapper;
 import com.xinhuanet.service.ContentDetailService;
 import org.elasticsearch.action.bulk.BulkRequestBuilder;
+import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexResponse;
@@ -103,7 +104,7 @@ public class ContentDetailServiceImpl implements ContentDetailService {
             System.out.println(count);
             if (count % 1000 == 0) {
                 bulkRequest.get();
-                log.info("contentDetail===批量导入1000条数据成功!!!===当前"+count+"条");
+                log.info("contentDetail===批量导入1000条数据成功!!!===当前" + count + "条");
             }
         }
         bulkRequest.get();
@@ -119,7 +120,21 @@ public class ContentDetailServiceImpl implements ContentDetailService {
                 .setId(id)
                 .setSource(stringObjectMap)
         );
-        bulkRequest.get();
-        return "导入指定contentDetail的id为" + id + "的数据成功！！！";
+        BulkResponse bulkItemResponses = bulkRequest.get();
+        if(bulkItemResponses.hasFailures()){
+            return "false";
+        }else {
+            return "true";
+        }
+    }
+
+    @Override
+    public String selectContentDetailId(String contentid) {
+        return contentDetailMapper.selectContentDetailId(contentid);
+    }
+
+    @Override
+    public List<ContentDetail> getByContentid(String contentid) {
+        return contentDetailDao.getByContentid(contentid);
     }
 }

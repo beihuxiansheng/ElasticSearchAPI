@@ -6,7 +6,9 @@
     <groupId>com.yao</groupId>
     <artifactId>ElasticSearchAPI</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
+
+    <name>ElasticSearchAPI</name>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -90,13 +92,22 @@
             <version>4.12</version>
             <scope>test</scope>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
         <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-            <version>1.2.49</version>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.3.1</version>
         </dependency>
-
+        <!-- mq -->
+        <dependency>
+            <groupId>com.aliyun.openservices</groupId>
+            <artifactId>ons-client</artifactId>
+            <version>1.7.7.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.amqp</groupId>
+            <artifactId>spring-amqp</artifactId>
+            <version>1.6.1.RELEASE</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -104,20 +115,10 @@
         <!-- 设置不同环境的配置文件 覆盖自上而下顺序执行 -->
         <resources>
             <resource>
-                <directory>src/main/java</directory>
-                <includes>
-                    <include>**/*.properties</include>
-                    <include>**/*.xml</include>
-                </includes>
-                <filtering>false</filtering>
+                <directory>src/main/resources</directory>
             </resource>
             <resource>
-                <directory>src/main/resources</directory>
-                <includes>
-                    <include>**/*.properties</include>
-                    <include>**/*.xml</include>
-                </includes>
-                <filtering>false</filtering>
+                <directory>${runtime.env}</directory>
             </resource>
         </resources>
         <plugins>
@@ -128,7 +129,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.15</version>
                 <configuration>
                     <skip>true</skip>
                 </configuration>
@@ -136,7 +136,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
-                <version>2.7</version>
                 <configuration>
                     <overwrite>true</overwrite>
                 </configuration>

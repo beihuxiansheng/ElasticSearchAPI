@@ -21,4 +21,8 @@ public interface ContentDetailService {
     void importData();
 
     String importOne(String id);
+
+    String selectContentDetailId(String contentid);
+
+    List<ContentDetail> getByContentid(String contentid);
 }

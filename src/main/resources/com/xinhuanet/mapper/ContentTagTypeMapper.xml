@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2010-2013 the original author or authors. Licensed under the
+	Apache License, Version 2.0 (the "License"); you may not use this file except
+	in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+	Unless required by applicable law or agreed to in writing, software distributed
+	under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES
+	OR CONDITIONS OF ANY KIND, either express or implied. See the License for
+	the specific language governing permissions and limitations under the License. -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xinhuanet.mapper.ContentTagTypeMapper">
+
+    <select id="selectContentTagType" resultType="com.xinhuanet.entity.ContentTagType">
+        SELECT * FROM `tb_evt_content_tag_type` WHERE ID = #{id}
+    </select>
+
+    <select id="findAll" resultType="com.xinhuanet.entity.ContentTagType">
+      SELECT * FROM `tb_evt_content_tag_type`;
+	</select>
+
+    <resultMap id="tagTypeMap" type="HashMap" autoMapping="false">
+        <result column="type_code" property="type_code"/>
+        <result column="type_name" property="type_name"/>
+    </resultMap>
+
+    <select id="selectContentTagTypeMap" resultMap="tagTypeMap">--
+      SELECT * FROM `tb_evt_content_tag_type` WHERE ID = #{id};
+	</select>
+
+    <select id="findAllId" resultType="string">
+      SELECT id FROM `tb_evt_content_tag_type`;
+	</select>
+
+</mapper>

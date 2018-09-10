@@ -40,4 +40,10 @@
       SELECT id FROM `tb_evt_attachment`;
 	</select>
 
+
+    <select id="selectAttachmentId" resultType="string">
+        SELECT ID FROM `tb_evt_attachment` WHERE CONTENTID = #{id}
+    </select>
+
+
 </mapper>

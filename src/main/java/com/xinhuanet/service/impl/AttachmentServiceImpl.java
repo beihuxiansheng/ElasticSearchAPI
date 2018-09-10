@@ -5,12 +5,14 @@ import com.xinhuanet.entity.Attachment;
 import com.xinhuanet.mapper.AttachmentMapper;
 import com.xinhuanet.service.AttachmentService;
 import org.elasticsearch.action.bulk.BulkRequestBuilder;
+import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentFactory;
+import org.elasticsearch.index.reindex.BulkByScrollResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -118,7 +120,26 @@ public class AttachmentServiceImpl implements AttachmentService {
                 .setId(id)
                 .setSource(stringObjectMap)
         );
-        bulkRequest.get();
-        return "导入指定attachment的id为" + id + "的数据成功！！！";
+        BulkResponse bulkItemResponses = bulkRequest.get();
+        if (bulkItemResponses.hasFailures()) {
+            return "false";
+        } else {
+            return "true";
+        }
+    }
+
+    @Override
+    public List<String> selectAttachmentId(String contentid) {
+        return attachmentMapper.selectAttachmentId(contentid);
+    }
+
+    @Override
+    public List<Attachment> getByContentid(String contentid) {
+        return attachmentDao.getByContentid(contentid);
+    }
+
+    @Override
+    public BulkByScrollResponse deletes(String contentid) {
+        return attachmentDao.deletes(contentid);
     }
 }

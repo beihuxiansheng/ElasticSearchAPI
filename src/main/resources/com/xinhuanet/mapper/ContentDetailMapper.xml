@@ -33,4 +33,9 @@
       SELECT id FROM `tb_evt_content_detail`;
 	</select>
 
+    <select id="selectContentDetailId" resultType="string">
+      SELECT id FROM `tb_evt_content_detail` WHERE CONTENTID = #{id};
+	</select>
+
+
 </mapper>

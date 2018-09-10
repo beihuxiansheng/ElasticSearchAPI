@@ -26,6 +26,14 @@ jdbc:
         password : gaoyuan123
         driveName : com.mysql.jdbc.Driver
 
+con:
+    ConsumerId: CID_ElasticSearchTag
+    AccessKey: qy2sKCH6xEssxpda
+    SecretKey: ypr1xd8w9i5YwnsEKccXRPqZ22P5kK
+    ONSAddr: http://10.123.14.116/rocketmq/nsaddr4client-internal
+    Topic: mq_gjtjxt
+    TagAll: DataPartitioning
+
 ---
 spring.profiles: pro
 
@@ -40,4 +48,11 @@ jdbc:
         password : gaoyuan123
         driveName : com.mysql.jdbc.Driver
 
+con:
+    ConsumerId: CID_ElasticSearchTag
+    AccessKey: qy2sKCH6xEssxpda
+    SecretKey: ypr1xd8w9i5YwnsEKccXRPqZ22P5kK
+    ONSAddr: http://10.123.14.116/rocketmq/nsaddr4client-internal
+    Topic: mq_gjtjxt
+    TagAll: DataPartitioning||cms_files_store||cms_shegao_store
 

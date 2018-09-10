@@ -14,5 +14,7 @@ public interface AttachmentMapper {
 
     List<String> findAllId();
 
-    Map<String,Object> selectAttachmentMap(String id);
+    Map<String, Object> selectAttachmentMap(String id);
+
+    List<String> selectAttachmentId(String contentid);
 }

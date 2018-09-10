@@ -6,6 +6,7 @@ import com.xinhuanet.mapper.ContentInfoMapper;
 import com.xinhuanet.service.ContentInfoService;
 import com.xinhuanet.tool.ObjectUtils;
 import org.elasticsearch.action.bulk.BulkRequestBuilder;
+import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexResponse;
@@ -164,7 +165,7 @@ public class ContentInfoServiceImpl implements ContentInfoService {
     }
 
     @Override
-    public void importData() {
+    public String importData() {
         List<String> allId = contentInfoMapper.findAllId();
         int count = 0;
         BulkRequestBuilder bulkRequest = client.prepareBulk();
@@ -177,25 +178,39 @@ public class ContentInfoServiceImpl implements ContentInfoService {
             count++;
             System.out.println(count);
             if (count % 1000 == 0) {
-                bulkRequest.get();
-                log.info("contentInfo===批量导入1000条数据成功!!!===当前"+count+"条");
+                BulkResponse bulkItemResponses = bulkRequest.get();
+                if(bulkItemResponses.hasFailures()){
+                    log.info("contentInfo===批量导入1000条数据失败!!!===当前" + count + "条");
+                    return "contentInfo===批量导入1000条数据失败!!!===当前" + count + "条";
+                }else {
+                    log.info("contentInfo===批量导入1000条数据成功!!!===当前" + count + "条");
+                }
             }
         }
-        bulkRequest.get();
-        log.info("contentInfo===批量导入数据成功!!!===");
+        BulkResponse bulkItemResponses = bulkRequest.get();
+        if(bulkItemResponses.hasFailures()){
+            log.info("contentInfo===批量导入数据失败!!!===");
+            return "contentInfo===批量导入数据失败!!!===";
+        }else {
+            log.info("contentInfo===批量导入数据成功!!!===");
+            return "contentInfo===批量导入数据成功!!!===";
+        }
     }
 
     @Override
     public String importOne(String id) {
         BulkRequestBuilder bulkRequest = client.prepareBulk();
         Map<String, Object> stringObjectMap = contentInfoMapper.selectContentInfoMap(id);
-        System.out.println(stringObjectMap.get("pubtime"));
         bulkRequest.add(client.prepareIndex("tb_evt_contentinfo", "data")
                 //id需要单独设置
                 .setId(id)
                 .setSource(stringObjectMap)
         );
-        bulkRequest.get();
-        return "导入指定contentInfo的id为" + id + "的数据成功！！！";
+        BulkResponse bulkItemResponses = bulkRequest.get();
+        if(bulkItemResponses.hasFailures()){
+            return "false";
+        }else {
+            return "true";
+        }
     }
 }

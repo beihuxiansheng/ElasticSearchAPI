@@ -56,7 +56,7 @@
 	</select>
 
     <select id="findAllId" resultType="string">
-      SELECT id FROM `tb_evt_contentinfo` ORDER BY ID ASC;
+      SELECT id FROM `tb_evt_contentinfo`;
 	</select>
 
 </mapper>

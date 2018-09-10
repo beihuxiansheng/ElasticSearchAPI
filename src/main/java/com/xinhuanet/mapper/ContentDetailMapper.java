@@ -14,4 +14,6 @@ public interface ContentDetailMapper {
     List<String> findAllId();
 
     Map<String, Object> selectContentDetailMap(String id);
+
+    String selectContentDetailId(String contentid);
 }

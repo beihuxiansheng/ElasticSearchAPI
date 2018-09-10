@@ -95,8 +95,8 @@ public class ContentInfoController {
     }
 
     @RequestMapping("/importData")
-    public void importData(){
-        contentInfoService.importData();
+    public String importData(){
+        return contentInfoService.importData();
     }
 
     @RequestMapping("/importOne")

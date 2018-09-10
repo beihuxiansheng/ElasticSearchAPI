@@ -1,7 +1,6 @@
 package com.xinhuanet.controller;
 
 import com.xinhuanet.entity.Attachment;
-import com.xinhuanet.entity.ContentInfo;
 import com.xinhuanet.service.AttachmentService;
 import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.get.GetResponse;
@@ -78,6 +77,7 @@ public class AttachmentController {
 
     /**
      * 根据id查询数据库
+     *
      * @param id
      * @return
      */
@@ -88,6 +88,7 @@ public class AttachmentController {
 
     /**
      * 查询数据库所有
+     *
      * @return
      */
     @RequestMapping("/findAll")
@@ -96,13 +97,18 @@ public class AttachmentController {
     }
 
     @RequestMapping("/importData")
-    public void importData(){
+    public void importData() {
         attachmentService.importData();
     }
 
     @RequestMapping("/importOne")
-    public String importOne(String id){
+    public String importOne(String id) {
         return attachmentService.importOne(id);
+    }
+
+    @RequestMapping("/getByContentid")
+    public List<Attachment> getByContentid(String contentid) {
+        return attachmentService.getByContentid(contentid);
     }
 
 }

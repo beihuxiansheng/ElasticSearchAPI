@@ -14,4 +14,6 @@ public interface ContentArticleidMapper {
     List<String> findAllId();
 
     Map<String, Object> selectContentArticleidMap(String id);
+
+    String selectContentArticleIdID(String contentid);
 }

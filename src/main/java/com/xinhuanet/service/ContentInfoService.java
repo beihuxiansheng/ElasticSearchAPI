@@ -18,7 +18,7 @@ public interface ContentInfoService {
 
     List<ContentInfo> findAll();
 
-    void importData();
+    String importData();
 
     String importOne(String id);
 }

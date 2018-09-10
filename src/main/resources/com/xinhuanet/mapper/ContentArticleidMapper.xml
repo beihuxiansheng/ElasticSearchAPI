@@ -30,7 +30,12 @@
 	</select>
 
     <select id="findAllId" resultType="string">
-      SELECT id FROM `tb_evt_content_articleid` ORDER BY ID ASC;
+      SELECT id FROM `tb_evt_content_articleid`;
 	</select>
+
+    <select id="selectContentArticleIdID" resultType="string">
+      SELECT ID FROM `tb_evt_content_articleid` WHERE CONTENTID = #{id};
+	</select>
+
 
 </mapper>

@@ -11,6 +11,8 @@
    http://www.springframework.org/schema/aop 
    http://www.springframework.org/schema/aop/spring-aop.xsd">
 
+    <import resource="classpath:aliyunMQ-customer.xml" />
+
     <!-- 配置dataSource -->
     <bean class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close" id="dataSource" init-method="init">
         <property name="driverClassName" value="${jdbc.mysql.driveName}" />
